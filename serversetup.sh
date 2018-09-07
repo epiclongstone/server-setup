@@ -54,6 +54,8 @@ set -i "s/{{ longstone_ip }}/${LONGSTONE_IP}/" inventory/longstone.yml
 
 echo " - Running Playbook" | tee -a ${FULLLOG}
 
-ansible-playbook -i inventory/longstone.yml playbooks/longstone.yml --vault-password-file ~/.vault_pass | tee -a ${FULLLOG}
+ansible-playbook -i inventory/longstone.yml playbooks/all.yml --vault-password-file ~/.vault_pass | tee -a ${FULLLOG}
+
+ansible-playbook -i inventory/longstone.yml playbooks/rancher-server.yml --vault-password-file ~/.vault_pass | tee -a ${FULLLOG}
 
 
