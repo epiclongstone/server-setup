@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 FULLLOG=/tmp/serversetup.log
 
 echo "Full logfile: /tmp/serversetup.log"
