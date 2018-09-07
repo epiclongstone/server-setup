@@ -1,0 +1,9 @@
+version: '2'
+services:
+  KF2-Server:
+  image: gameservers/kf2:latest
+  stdin_open: true
+  network_mode: host
+  volumes:
+  - /DockerVolumes/KF2:/home/steamsrv/KF2
+  tty: true

@@ -67,5 +67,19 @@ echo " - Running Playbook for Rancher Server hosts" | tee -a ${FULLLOG}
 
 ansible-playbook -i inventory/longstone.yml ./rancher-server.yml --vault-password-file ~/.vault_pass
 
+echo " - Running Terraform"
+
+cd /tmp/server-setup/terraform
+
+echo " - Updating terraform IP Address"
+sed -i "s/{{ longstone_IP }}/${LONGSTONE_IP}/g" longstone.tf
+
+echo " - Initialising Terraform"
+terraform init
+echo " - Runnign Terraform plan"
+terraform plan
+echo " - Applying Terraform plan"
+terraform apply --auto-approve
+
 
 #} | tee -a ${FULLLOG}
