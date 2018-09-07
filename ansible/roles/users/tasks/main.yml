@@ -1,0 +1,9 @@
+- name: Add Groups
+  include_tasks: groups.yml
+
+- name: Add Users
+  include_tasks: users.yml
+
+- name: Add SSH Keys
+  include_tasks: authkeys.yml
+  

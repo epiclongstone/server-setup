@@ -1,0 +1,8 @@
+---
+- host: all
+  roles:
+    - docker
+    - hostname
+    - ntp
+    - timezone
+    - users

@@ -1,0 +1,21 @@
+---
+- name: add apt_key
+  become: true
+  apt_key:
+    url: "{{ apt_key_url }}"
+    state: present
+    
+  
+- name: add repositories
+  become: true
+  apt_repository:
+    repo: "{{ apt_repository }}"
+    state: present
+
+- name: install packages
+  become: true
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: "{{ apt_packages }}"

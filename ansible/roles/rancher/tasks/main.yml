@@ -1,0 +1,35 @@
+---
+- name: install Python-pip
+  become: true
+  apt:
+    name: python-pip
+    state: present
+    update_cache: yes
+
+- name: install Python docker
+  become: true
+  pip:
+    name: docker-py
+    state: present
+
+- name: run Rancher server
+  become: true
+  docker_container:
+    name: rancher-server
+    image: rancher/server:stable
+    volumes:
+      - /DockerVolumes/rancher-server/msql:/var/lib/mysql
+    state: started
+    restart_policy: unless-stopped
+    pull: yes
+    ports:
+      - "8080:8080/tcp"
+
+- name: wait for rancher server
+  uri:
+    url: "http://localhost:8080"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 1

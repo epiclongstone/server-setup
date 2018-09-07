@@ -1,0 +1,14 @@
+- name: Install NTP
+  apt: pkg=ntp state=installed update_cache=yes
+  notify: Restart NTP
+  when: (ansible_os_family == "Debian")
+
+- name: Install NTP
+  yum: pkg=ntp state=installed
+  notify: Restart NTP
+  when: (ansible_os_family == "RedHat")
+
+- name: Copy ntp.conf
+  template: src=templates/ntp.conf dest=/etc/ntp.conf
+  notify: Restart NTP
+  when: ansible_os_family != "Darwin"

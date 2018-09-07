@@ -1,0 +1,40 @@
+---
+- name: determine if docker is installed
+  command: which docker
+  register: docker_installed
+  ignore_errors: true
+  changed_when: false
+
+- name: get docker version
+  shell: docker --version | awk '{ print $3 }'
+  register: docker_installed_version
+  when: docker_installed|success
+  changed_when: false
+
+- name: install or upgrade docker
+  shell: curl https://releases.rancher.com/install-docker/{{ docker_version }}.sh | sh
+  when: not docker_installed|success or
+        not docker_installed_version.stdout|search(docker_version|string)
+
+- name: uninstall pip
+  apt: name=python-pip state=absent
+  when: ansible_os_family == "Debian"
+
+  # Debian ships with pip v1.5 in apt, which is broken
+- name: install pip (Debian)
+  easy_install: name=pip state=latest
+  when: ansible_distribution == "Debian"
+
+- name: upgrade pip (Ubuntu)
+  pip: name=pip state=latest
+  when: ansible_os_family == "Debian" and not ansible_distribution == "Debian"
+
+- name: install additional dependencies (pip)
+  pip: name=docker-py state=present
+  tags: pip
+
+- name: add our login user to docker group
+  user: name={{ansible_user}} groups=docker append=yes
+
+- name: make sure docker is running
+  service: name=docker state=started enabled=true
