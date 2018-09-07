@@ -1,4 +1,4 @@
-- name: Add Developer users
+- name: Add Users
   become: true
   user:
       name: "{{item.username}}"
@@ -7,7 +7,7 @@
       comment: "{{item.comment}}"
       uid: "{{item.UID}}"
       group: "{{group}}"
-      groups: sudo
+      groups: "{{ item.groups }}"
       password: "{{item.password}}"
       home: /home/{{item.username}}
       update_password: on_create

@@ -1,8 +1,10 @@
 - name: Configure Hostname
+  become: true
   hostname: name={{inventory_hostname}}
   notify: Reboot systems
 
 - name: Install /etc/hosts
+  become: true
   template: src=templates/hosts dest=/etc/hosts
 
 - meta: flush_handlers

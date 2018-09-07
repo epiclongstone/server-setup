@@ -1,4 +1,5 @@
 - name: Add Longstone Group
+  become: true
   group:
     gid: "{{group_GID}}"
     name: "{{group}}"
