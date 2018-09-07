@@ -50,7 +50,7 @@ ansible-vault decrypt inventory/longstone.yml --vault-password-file ${VAULTFILE}
 echo "Enter IP Address for longstone Server"
 read LONGSTONE_IP
 echo "Setting Longstone server IP to ${LONGSTONE_IP} in Ansible inventory" | tee -a ${FULLLOG}
-set -i "s/{{ longstone_ip }}/${LONGSTONE_IP}/" inventory/longstone.yml
+sed -i "s/{{ longstone_IP }}/${LONGSTONE_IP}/" inventory/longstone.yml
 
 echo " - Running Playbook" | tee -a ${FULLLOG}
 
